@@ -96,7 +96,7 @@ function addRole() {
         type: 'input',
         message: 'what is the salary for this role',
         name: 'salary'
-    }. {
+    }, {
         type: 'list',
         message: 'what department id is this role in',
         name: 'department_id',
