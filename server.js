@@ -114,9 +114,53 @@ function addRole() {
 
 
 
+function addEmployee() {
+    inquirer.prompt([{
+        type: 'input',
+        message: 'please enter first name for new employee',
+        name: 'first_name'
+    }, {
+        type: 'input',
+        message: 'please enter last name for new employee',
+        name: 'last_name'
+    }, {
+        type: 'list',
+        message: 'please enter the role id for new employee',
+        name: 'role_id',
+        choices: [1, 2, 3, 4]
+    }
 
+]).then(data => {
+        db.query('insert into employee set ?', {
+            first_name: data.first_name,
+            last_name: data.last_name,
+            role_id: data.role_id,
+        })
+        start()
+    })
+}
 
+function updateEmployee() {
+    inquirer.prompt([{
+        type: 'input',
+        message: 'please enter employee id to update role',
+        name: 'employee_id'
+    },
+    {
+        type:'input',
+        message: 'please enter employee new role id',
+        name: 'role_id'
 
+    }]).then(data => {
+        db.query('UPDATE employee set ? role_id = ? where employee_id = ?', {
+            employee_id:data.employee_id, 
+            role_id:data.role_id,
+            
+            
+    })
+        start()
+    })
+}
 
 
 start()
