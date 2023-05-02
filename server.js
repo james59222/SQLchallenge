@@ -2,6 +2,7 @@
 const inquirer = require('inquirer');
 const db = require('./db/connection');
 
+//All questions menu
 function start() {
     inquirer.prompt([
         {
@@ -48,7 +49,7 @@ function start() {
             }
         });
 };
-
+//View departments
 function viewDepartments() {
     db.query('select * from department', (err, res) => {
         if (err) throw err
@@ -57,6 +58,7 @@ function viewDepartments() {
     })
 }
 
+//view roles
 function viewRoles() {
     db.query('select * from role', (err, res) => {
         if (err) throw err
@@ -65,6 +67,7 @@ function viewRoles() {
     })
 }
 
+//view employees
 function viewEmployees() {
     db.query('select * from employee', (err, res) => {
         if (err) throw err
@@ -73,6 +76,7 @@ function viewEmployees() {
     })
 }
 
+//view departments
 function addDepartment() {
     inquirer.prompt([{
         type: 'input',
@@ -86,6 +90,7 @@ function addDepartment() {
     })
 }
 
+//add roles
 function addRole() {
     inquirer.prompt([{
         type: 'input',
@@ -113,7 +118,7 @@ function addRole() {
 }
 
 
-
+//add employees
 function addEmployee() {
     inquirer.prompt([{
         type: 'input',
@@ -130,7 +135,7 @@ function addEmployee() {
         choices: [1, 2, 3, 4]
     }
 
-]).then(data => {
+    ]).then(data => {
         db.query('insert into employee set ?', {
             first_name: data.first_name,
             last_name: data.last_name,
@@ -140,6 +145,7 @@ function addEmployee() {
     })
 }
 
+//update role for employee
 function updateEmployee() {
     inquirer.prompt([{
         type: 'input',
@@ -147,18 +153,17 @@ function updateEmployee() {
         name: 'employee_id'
     },
     {
-        type:'input',
+        type: 'input',
         message: 'please enter employee new role id',
         name: 'role_id'
 
     }]).then(data => {
-        db.query('UPDATE employee set ? role_id = ? where employee_id = ?', {
-            employee_id:data.employee_id, 
-            role_id:data.role_id,
-            
-            
-    })
+        console.log(data)
+        db.query('UPDATE employee set role_id = ? where id = ?',[data.role_id,data.employee_id], (err,result) => {
+        if (err) throw err; 
+        console.log('sucessfull', result)
         start()
+        })
     })
 }
 
